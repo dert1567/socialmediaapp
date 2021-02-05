@@ -15,6 +15,12 @@ const app = express()
 app.get('/screams',getAllScreams)
 app.post('/scream', FBAuth, postOneScream);
 
+<<<<<<< HEAD
+=======
+var config = {
+ 
+};
+>>>>>>> 9ed94db6189dece5443671ed7e3f2a743898aa46
 
 //users routes
 
