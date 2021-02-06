@@ -3,8 +3,9 @@ const express = require('express')
 
 
 const { getAllScreams, postOneScream  } = require('./handlers/scream')
-const {signup, login} = require('./handlers/users')
+const {signup, login, uploadImage} = require('./handlers/users')
 const FBAuth = require('./util/fbAuth')
+
 
 
 const app = express()
@@ -14,6 +15,7 @@ const app = express()
 
 app.get('/screams',getAllScreams)
 app.post('/scream', FBAuth, postOneScream);
+app.post ('/user/image',FBAuth, uploadImage)
 
 
 //users routes
