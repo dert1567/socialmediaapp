@@ -15,6 +15,7 @@ exports.getAllScreams = (req, res) => {
           body: doc.data().body,
           userHandle: doc.data().userHandle,
           createdAt: doc.data().createdAt,
+          userImage: doc.data().userImage
         });
       });
 
@@ -46,7 +47,7 @@ exports.postOneScream = (req, res) => {
     .then((doc) => {
       const resScream = newScream;
       resScream.screamId = doc.id;
-      res.json({resScream });
+      res.json({ resScream });
     })
     .catch((err) => {
       res.status(500).json({ error: "something went wrong" });
@@ -91,7 +92,7 @@ exports.getScream = (req, res) => {
 //Comment a comment
 
 exports.commentOnScream = (req, res) => {
-  if (req.body.body.trim() == '') return res.status(400).json({ error: 'Must not be empty' })
+  if (req.body.body.trim() == '') return res.status(400).json({ comment: 'Must not be empty' })
 
   const newComment = {
     body: req.body.body,
@@ -106,7 +107,7 @@ exports.commentOnScream = (req, res) => {
         return res.status(404).json({ error: "scream not found" })
 
       }
-      return doc.ref.update({commentCount: doc.data().commentCount + 1})
+      return doc.ref.update({ commentCount: doc.data().commentCount + 1 })
     })
     .then(() => {
       return db.collection('comments').add(newComment)
@@ -211,5 +212,35 @@ exports.unlikeScream = (req, res) => {
     .catch((err) => {
       console.error(err);
       res.status(500).json({ error: err.code });
+
     });
 };
+
+//Delte a scream
+
+
+exports.deleteScream = (req, res) => {
+  const document = db.doc(`/screams/${req.params.screamId}`);
+  document.get()
+    .then(doc => {
+      if (!doc.exists) {
+        return res.status(404).json({ error: 'Scream not found' })
+      }
+      if (doc.data().userHandle !== req.user.handle) {
+        return res.status(403).json({ error: 'Unathorizaed' })
+      } else {
+        return document.delete();
+      }
+    })
+    .then(() => {
+      res.json({ message: 'scream deletet successfully' })
+    })
+    .catch(err => {
+      console.error(err)
+      return res.status(500).json({ error: err.code })
+    })
+}
+
+
+
+

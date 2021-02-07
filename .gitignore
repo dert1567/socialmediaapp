@@ -5,9 +5,8 @@
 /package-lock.json
 /.pnp
 .pnp.js
-/firebase-debug.log
+/funcions/firebase-debug.log
 /funtions/package-lock.json
-
 # testing
 /coverage
 
