@@ -8,6 +8,7 @@
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.6.3",
     "axios": "^0.21.1",
+    "dayjs": "^1.10.4",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",
@@ -37,7 +38,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-    
   },
-  "proxy" : "https://europe-west1-socialmediaapp-8a9d8.cloudfunctions.net/api"
+  "proxy": "https://europe-west1-socialmediaapp-8a9d8.cloudfunctions.net/api"
 }

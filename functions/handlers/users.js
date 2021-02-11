@@ -7,7 +7,7 @@ const { uuid } = require("uuidv4");
 const config = require('../util/config')
 
 
-const { validateSignupData, validateLoginDate, reduceUserDetails } = require('../util/validators');
+const { validateSignupData, validateLoginData, reduceUserDetails } = require('../util/validators');
 const { UserDimensions } = require('firebase-functions/lib/providers/analytics');
 
 firebase.initializeApp(config)
@@ -91,37 +91,31 @@ exports.signup = (req, res) => {
 exports.login = (req, res) => {
     const user = {
         email: req.body.email,
-        password: req.body.password
-    }
+        password: req.body.password,
+    };
 
-    const { valid, errors } = validateLoginDate(user);
+    const { valid, errors } = validateLoginData(user);
 
-    if (!valid) return res.status(400).json(errors)
+    if (!valid) return res.status(400).json(errors);
 
-
-
-
-
-
-
-    firebase.auth().signInWithEmailAndPassword(user.email, user.password)
-        .then(data => {
-            return data.user.getIdToken()
+    firebase
+        .auth()
+        .signInWithEmailAndPassword(user.email, user.password)
+        .then((data) => {
+            return data.user.getIdToken();
         })
-        .then(token => {
-            return res.json({ token })
+        .then((token) => {
+            return res.json({ token });
         })
-        .catch(err => {
-            console.error(err)
-            // auth/wrong password
-            //Auth/user-not-foung
-            if (err.code === "auth/wrong-password") {
-                return res.status(403).json({ general: 'Wrong credetnials, please try again' })
-            } 
-            //else return res.status(500).json({ general: "Something went wrong, please try again" });
-        })
-
-}
+        .catch((err) => {
+            console.error(err);
+            // auth/wrong-password
+            // auth/user-not-user
+            return res
+                .status(403)
+                .json({ general: "Wrong credentials, please try again" });
+        });
+};
 
 // add User details
 
