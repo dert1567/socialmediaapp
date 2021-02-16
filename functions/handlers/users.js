@@ -87,7 +87,6 @@ exports.signup = (req, res) => {
 
 
 //Login
-
 exports.login = (req, res) => {
     const user = {
         email: req.body.email,
