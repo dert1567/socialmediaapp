@@ -32,15 +32,14 @@ class login extends Component {
         this.state = {
             email: '',
             password: '',
-            loading: false,
+
             errors: {}
         };
     }
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.UI.errors) {
-            this.setState({ errors: nextProps.UI.errors });
-        }
-    }
+
+
+
+
     handleSubmit = (event) => {
         event.preventDefault();
         const userData = {
@@ -57,7 +56,7 @@ class login extends Component {
     render() {
         const {
             classes,
-            loading
+            UI: { loading } // Thats my ERROR
         } = this.props;
         const { errors } = this.state;
 
@@ -130,7 +129,7 @@ login.propTypes = {
 
 const mapStateToProps = (state) => ({
     user: state.user,
-    UI: state.UI
+    UI: state.ui
 });
 
 const mapActionsToProps = {
