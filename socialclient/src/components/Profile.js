@@ -17,7 +17,13 @@ import LocationOn from '@material-ui/icons/LocationOn';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
+import EditDetails from './EditDetails.js'
+
 import Paper from '@material-ui/core/Paper';
+import { IconButton, Tooltip } from '@material-ui/core';
+
+import { logoutUser, uploadImage } from '../Redux/actions/userActions'
+import Mybutton from '../util/Mybutton.js';
 
 
 const styles = theme => ({
@@ -25,8 +31,32 @@ const styles = theme => ({
 })
 
 
+
+
+
+
 export class Profile extends Component {
+
+    handleImageChange = (event) => {
+        const image = event.target.files[0];
+        const formData = new FormData();
+        formData.append('image', image, image.name);
+        this.props.uploadImage(formData);
+    };
+
+    handleEditPicture = () => {
+        const fileInput = document.getElementById('imageInput');
+        fileInput.click();
+    };
+
+    handleLogout = () => {
+        this.props.logoutUser()
+    }
+
+
+
     render() {
+
 
 
 
@@ -41,11 +71,13 @@ export class Profile extends Component {
                             type="file"
                             id="imageInput"
                             hidden="hidden"
+                            onChange={this.handleImageChange}
+
 
                         />
-
-                        <EditIcon color="primary" />
-
+                        <Mybutton tip="edit profile" onClick={this.handleEditPicture} btnClassName="button">
+                            <EditIcon color="primary" />
+                        </Mybutton>
                     </div>
                     <hr />
                     <div className="profile-details">
@@ -80,7 +112,10 @@ export class Profile extends Component {
                         <span>Joined {dayjs(createdAt).format('MMM YYYY')}</span>
                     </div>
 
-
+                    <Mybutton tip="edit profile" onClick={this.handleLogout} btnClassName="button">
+                        <KeyboardReturn color="primary" />
+                    </Mybutton>
+                    <EditDetails />
                 </div>
             </Paper >
         ) : (
@@ -119,10 +154,14 @@ const mapStateToProps = (state) => ({
     user: state.user
 })
 
+const mapActionsToProps = { logoutUser, uploadImage }
+
 Profile.propTypes = {
+    logoutUser: PropTypes.func.isRequired,
+    uploadImage: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
     classes: PropTypes.object.isRequired
 }
 
-export default connect(mapStateToProps)(withStyles(styles)(Profile))
+export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(Profile))
 

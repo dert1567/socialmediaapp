@@ -129,7 +129,7 @@ login.propTypes = {
 
 const mapStateToProps = (state) => ({
     user: state.user,
-    UI: state.ui
+    UI: state.UI
 });
 
 const mapActionsToProps = {

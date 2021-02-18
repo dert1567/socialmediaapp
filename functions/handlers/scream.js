@@ -2,7 +2,6 @@ const { db } = require("../util/admin");
 
 
 
-
 exports.getAllScreams = (req, res) => {
   db.collection('screams')
     .orderBy('createdAt', 'desc')
@@ -15,14 +14,17 @@ exports.getAllScreams = (req, res) => {
           body: doc.data().body,
           userHandle: doc.data().userHandle,
           createdAt: doc.data().createdAt,
+          commentCount: doc.data().commentCount,
+          likeCount: doc.data().likeCount,
           userImage: doc.data().userImage
         });
       });
-
       return res.json(screams);
     })
-
-    .catch((err) => console.error());
+    .catch((err) => {
+      console.error(err);
+      res.status(500).json({ error: err.code });
+    });
 };
 
 
@@ -123,7 +125,6 @@ exports.commentOnScream = (req, res) => {
 
 }
 //Like a scream 
-
 exports.likeScream = (req, res) => {
   const likeDocument = db
     .collection('likes')
