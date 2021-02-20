@@ -20,6 +20,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
 import { likeScream, unlikeScream } from '../Redux/actions/dataActions'
 import Mybutton from '../util/Mybutton';
+import DeleteScream from './DeleteScream';
 
 const styles = {
     card: {
@@ -63,7 +64,7 @@ class Scream extends Component {
         const { classes, scream: { body, createdAt, userImage, userHandle,
             screamId, likeCount, commentCount },
             user: {
-                authenticated
+                authenticated, credentials: { handle }
             } } = this.props
 
         const likeButton = !authenticated ? (
@@ -86,6 +87,12 @@ class Scream extends Component {
             )
 
 
+        const deleteButton =
+            authenticated && userHandle === handle ? (
+                <DeleteScream screamId={screamId} />
+            ) : null;
+
+
         return (
             <Card className={classes.card}>
                 <CardMedia
@@ -99,7 +106,10 @@ class Scream extends Component {
                         variant="h5"
                         component={Link}
                         color="primary"
-                        to={`useres/${userHandle}`} >{userHandle}</Typography>
+                        to={`useres/${userHandle}`} >{userHandle}
+
+                    </Typography>
+                    {deleteButton}
                     <Typography variant="body2" color="textSecondary">
                         {dayjs(createdAt).fromNow()}
                     </Typography>
@@ -110,7 +120,7 @@ class Scream extends Component {
                         <ChatIcon color="primary" />
 
                     </Mybutton>
-                    <span>{commentCount}comments</span>
+                    <span>{commentCount}  comments</span>
                 </CardContent>
             </Card>
         )
