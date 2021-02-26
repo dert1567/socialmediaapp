@@ -29,7 +29,11 @@ import { Button, Dialog, DialogTitle } from '@material-ui/core';
 
 
 const styles = theme => ({
-    ...theme.spreadThis
+    deleteButton: {
+        positin: 'absolute',
+        left: '80%',
+        tpo: '10%'
+    }
 })
 
 

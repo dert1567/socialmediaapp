@@ -9,6 +9,7 @@ import Notifications from '@material-ui/icons/Notifications';
 import AppBar from '@material-ui/core/AppBar'
 import { Button, Toolbar, Tooltip } from '@material-ui/core'
 import Mybutton from '../util/Mybutton';
+import PostScream from './PostScream';
 
 export class Navbar extends Component {
     render() {
@@ -18,9 +19,7 @@ export class Navbar extends Component {
                 <Toolbar className="nav-container">
                     {authenticated ? (
                         <Fragment>
-                            <Mybutton tip="Create a post">
-                                <AddIcon color="primary" />
-                            </Mybutton>
+                            <PostScream />
                             <Link to="/">
                                 <Mybutton tip="Home">
                                     <HomeIcon color="primary" />
